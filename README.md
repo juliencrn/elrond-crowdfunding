@@ -1,29 +1,13 @@
-# Interaction
+# crowdfunding smart contract
 
-## On devnet
+simple crowdfunding smart contract written in rust on the elrond blockchain following the official tutorial.
 
-Deploy & interact with contract:
+## usage
 
-```
-python3 ./interaction/playground.py --pem=./testnet/wallets/users/alice.pem --proxy=http://localhost:7950
-```
+It requires a working rust installation and the erlond cli app named erdpy.
 
-Interact with existing contract:
+### build
 
-```
-python3 ./interaction/playground.py --pem=./testnet/wallets/users/alice.pem --proxy=http://localhost:7950 --contract=erd1...
-```
-
-## On testnet
-
-Deploy & interact with contract:
-
-```
-python3 ./interaction/playground.py --pem=my.pem --proxy=https://testnet-gateway.elrond.com
-```
-
-Interact with existing contract:
-
-```
-python3 ./interaction/playground.py --pem=my.pem --proxy=https://testnet-gateway.elrond.com --contract=erd1...
+```bash
+erdpy contract build
 ```
