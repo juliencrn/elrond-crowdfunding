@@ -2,7 +2,7 @@
 
 simple crowdfunding smart contract written in rust on the elrond blockchain following the official tutorial.
 
-## usage
+## installation
 
 It requires a working rust installation and the erlond cli app named erdpy.
 
