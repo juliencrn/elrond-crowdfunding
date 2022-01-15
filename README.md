@@ -11,3 +11,9 @@ It requires a working rust installation and the erlond cli app named erdpy.
 ```bash
 erdpy contract build
 ```
+
+### test
+
+```bash
+erdpy contract test
+```
