@@ -9,8 +9,12 @@ elrond_wasm_node::wasm_endpoints! {
     (
         init
         add
+        fund
         getSum
+        get_deadline
+        get_deposit
         get_owner
+        get_target
     )
 }
 

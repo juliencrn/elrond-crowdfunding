@@ -2,37 +2,32 @@
     "name": "crowdfunding deployment test",
     "steps": [
         {
-            "step": "setState",
-            "accounts": {
-                "address:owner": {
-                    "nonce": "0",
-                    "balance": "1,000,000"
-                }
-            },
-            "newAddresses": [
-                {
-                    "creatorAddress": "address:owner",
-                    "creatorNonce": "0",
-                    "newAddress": "sc:crowdfunding"
-                }
-            ]
+            "step": "externalSteps",
+            "path": "test-init.scen.json"
         },
         {
-            "step": "scDeploy",
+            "step": "setState",
+            "accounts": {
+                "address:donor1": {
+                    "nonce": "0",
+                    "balance": "400,000,000,000"
+                }
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "fund-1",
             "tx": {
-                "from": "address:owner",
-                "contractCode": "file:../output/crowdfunding.wasm",
-                "value": "0",
-                "arguments": [
-                    "5",
-                    "500,000,000,000",
-                    "123,000"
-                ],
-                "gasLimit": "5,000,000",
+                "from": "address:donor1",
+                "to": "sc:crowdfunding",
+                "value": "250,000,000,000",
+                "function": "fund",
+                "arguments": [],
+                "gasLimit": "100,000,000",
                 "gasPrice": "0"
             },
             "expect": {
-                "status": "0",
+                "status": "",
                 "gas": "*",
                 "refund": "*"
             }
@@ -44,14 +39,19 @@
                     "nonce": "1",
                     "balance": "1,000,000"
                 },
+                "address:donor1": {
+                    "nonce": "1",
+                    "balance": "150,000,000,000"
+                },
                 "sc:crowdfunding": {
-                    "nonce": "*",
-                    "balance": "0",
+                    "nonce": "0",
+                    "balance": "250,000,000,000",
                     "storage": {
                         "''owner": "address:owner",
                         "''target": "500,000,000,000",
                         "''deadline": "123,000",
-                        "str:sum": "5"
+                        "str:sum": "5",
+                        "''deposit|address:donor1": "250,000,000,000"
                     },
                     "code": "file:../output/crowdfunding.wasm"
                 }
