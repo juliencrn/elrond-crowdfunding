@@ -8,6 +8,9 @@ publish = false
 [lib]
 path = "src/lib.rs"
 
+[dependencies]
+elrond-wasm-derive = "0.22.11"
+
 [dependencies.elrond-wasm]
 version = "0.25.0"
 

@@ -29,6 +29,52 @@
                 "gas": "*",
                 "refund": "*"
             }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "1",
+                    "balance": "1,000,000"
+                },
+                "address:donor1": {
+                    "nonce": "*",
+                    "balance": "150,000,000,000"
+                },
+                "sc:crowdfunding": {
+                    "nonce": "0",
+                    "balance": "250,000,000,000",
+                    "storage": {
+                        "''owner": "address:owner",
+                        "''target": "500,000,000,000",
+                        "''deadline": "123,000",
+                        "str:sum": "5",
+                        "''deposit|address:donor1": "250,000,000,000"
+                    },
+                    "code": "file:../output/crowdfunding.wasm"
+                }
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "check-status",
+            "tx": {
+                "from": "address:donor1",
+                "to": "sc:crowdfunding",
+                "value": "0",
+                "function": "status",
+                "arguments": [],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [
+                    "2"
+                ],
+                "status": "0",
+                "gas": "*",
+                "refund": "*"
+            }
         }
     ]
 }

@@ -73,6 +73,7 @@ name = "crowdfunding"
 version = "0.0.0"
 dependencies = [
  "elrond-wasm",
+ "elrond-wasm-derive 0.22.11",
 ]
 
 [[package]]
@@ -124,7 +125,7 @@ checksum = "dc1dcd78a65b3ac666c08f29b59eb00720e360fce55b37d5fe3a80a0a2203169"
 dependencies = [
  "bitflags",
  "elrond-codec",
- "elrond-wasm-derive",
+ "elrond-wasm-derive 0.25.0",
  "hashbrown",
  "hex-literal",
  "wee_alloc",
@@ -147,6 +148,19 @@ dependencies = [
  "serde_json",
  "sha2",
  "sha3",
+]
+
+[[package]]
+name = "elrond-wasm-derive"
+version = "0.22.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fe41869f20cf96ee6ff7f8508e5cb2cff0f3fb874c5fdba72aa64e78a5402b8c"
+dependencies = [
+ "hex",
+ "proc-macro2",
+ "quote",
+ "radix_trie",
+ "syn",
 ]
 
 [[package]]

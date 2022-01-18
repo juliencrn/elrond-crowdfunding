@@ -15,6 +15,7 @@ elrond_wasm_node::wasm_endpoints! {
         get_deposit
         get_owner
         get_target
+        status
     )
 }
 

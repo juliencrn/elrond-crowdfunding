@@ -3,6 +3,14 @@
 elrond_wasm::imports!();
 elrond_wasm::derive_imports!();
 
+// Crowdfunding campagne status
+#[derive(TopEncode, TopDecode, NestedEncode, NestedDecode, TypeAbi)]
+pub enum Status {
+    FundingPeriod,
+    Successful,
+    Failed,
+}
+
 #[elrond_wasm::contract]
 pub trait Crowdfunding {
     // constructor
@@ -32,6 +40,22 @@ pub trait Crowdfunding {
         deposit += payment;
         self.set_deposit(&caller, &deposit);
         Ok(())
+    }
+
+    // Get the campagne status
+    #[view]
+    fn status(&self) -> Status {
+        if self.blockchain().get_block_nonce() <= self.get_deadline() {
+            Status::FundingPeriod
+        } else if self
+            .blockchain()
+            .get_sc_balance(&TokenIdentifier::egld(), 0)
+            >= self.get_target()
+        {
+            Status::Successful
+        } else {
+            Status::Failed
+        }
     }
 
     // Add desired amount to the storage variable.
