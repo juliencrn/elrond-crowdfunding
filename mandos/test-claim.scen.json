@@ -1,0 +1,79 @@
+{
+    "name": "crowdfunding deployment test",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "test-fund.scen.json"
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockNonce": "123,001"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "check-status",
+            "tx": {
+                "from": "address:donor1",
+                "to": "sc:crowdfunding",
+                "value": "0",
+                "function": "status",
+                "arguments": [],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [
+                    "2"
+                ],
+                "status": "0",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "claim",
+            "tx": {
+                "from": "address:donor1",
+                "to": "sc:crowdfunding",
+                "function": "claim",
+                "arguments": [],
+                "gasLimit": "100,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "status": "0",
+                "message": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "checkState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "1",
+                    "balance": "1,000,000"
+                },
+                "address:donor1": {
+                    "nonce": "*",
+                    "balance": "400,000,000,000"
+                },
+                "sc:crowdfunding": {
+                    "nonce": "0",
+                    "balance": "",
+                    "storage": {
+                        "''owner": "address:owner",
+                        "''target": "500,000,000,000",
+                        "''deadline": "123,000",
+                        "str:sum": "5",
+                        "''deposit|address:donor1": "0"
+                    },
+                    "code": "file:../output/crowdfunding.wasm"
+                }
+            }
+        }
+    ]
+}

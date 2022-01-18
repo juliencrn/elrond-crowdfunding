@@ -9,6 +9,7 @@ elrond_wasm_node::wasm_endpoints! {
     (
         init
         add
+        claim
         fund
         getSum
         get_deadline

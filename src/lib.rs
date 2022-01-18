@@ -58,6 +58,44 @@ pub trait Crowdfunding {
         }
     }
 
+    #[endpoint]
+    fn claim(&self) -> SCResult<()> {
+        match self.status() {
+            Status::FundingPeriod => {
+                sc_error!("Cannot claim before deadline")
+            }
+            Status::Successful => {
+                let caller = self.blockchain().get_caller();
+                // TODO: Remove owner, can be find on the blockchain
+                if &caller != &self.get_owner() {
+                    return sc_error!("only owner can claim successful funding");
+                }
+                let amount = &self
+                    .blockchain()
+                    .get_sc_balance(&TokenIdentifier::egld(), 0);
+                self.send().direct_egld(
+                    &caller,              // to
+                    amount,               // amount
+                    ManagedBuffer::new(), // data
+                );
+                Ok(())
+            }
+            Status::Failed => {
+                let caller = self.blockchain().get_caller();
+                let deposit = self.get_deposit(&caller);
+                if &deposit > &0 {
+                    self.send().direct_egld(
+                        &caller,              // to
+                        &deposit,             // amount
+                        ManagedBuffer::new(), // data
+                    );
+                    self.set_deposit(&caller, &BigUint::zero());
+                }
+                Ok(())
+            }
+        }
+    }
+
     // Add desired amount to the storage variable.
     #[endpoint]
     fn add(&self, value: BigInt) -> SCResult<()> {
